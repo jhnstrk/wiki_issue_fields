@@ -1,0 +1,55 @@
+= Wiki Issue Details
+
+This plugin adds a wiki macro to make it easier to list the details of issues on a wiki page.
+
+== Installation and Setup
+
+1. Follow the Redmine plugin installation steps at: http://www.redmine.org/wiki/redmine/Plugins 
+2. Restart your Redmine web servers (e.g. mongrel, thin, mod_rails)
+
+== Usage
+
+{{issue_fields(4,-N,created,-N,author,-N,subject,-N,status,-N,priority,-N,assignee,-N,category,-N,target_version,-N,duration,-N,start_date,-N,due_date,-N,%_done,-N,spent_time,-N,estimated_time)}}
+Test : Anomalie #1 : - CREATED : Wed Feb 01 17:24:23 +0100 2012 - AUTHOR : Alexandre Scoarnec - Subject : anomalie 1 - Status : Résolu - Priority : Normal 
+- Assignee : Alexandre Scoarnec - Category : ##### - Target_version : ##### - Duration : 16 - Start_date : 2012-02-01 - Due_date : 2012-02-17 - % Done : 100 
+- Spent Time : 2.00 heures - Estimated Time : 1.00 heure"
+		 
+{{issue_fields(4,created,author,subject,status)}}
+Test : Anomalie #1 : - Wed Feb 01 17:24:23 +0100 2012 - Alexandre Scoarnec - anomalie 1 - Résolu"
+		 
+{{issue_fields(4,-P,created,author,subject,status)}}
+Test : Anomalie #1 : - CREATED : Wed Feb 01 17:24:23 +0100 2012 - AUTHOR : Alexandre Scoarnec - Subject : anomalie 1 - Status : Résolu"
+		 
+{{issue_fields(4,-S,-P,created,author,subject,status)}}
+- CREATED : Wed Feb 01 17:24:23 +0100 2012 - AUTHOR : Alexandre Scoarnec - Subject : anomalie 1 - Status : Résolu"
+		 
+{{issue_fields(4,-S,created,author,subject,status)}}
+- Wed Feb 01 17:24:23 +0100 2012 - Alexandre Scoarnec - anomalie 1 - Résolu"
+		 
+{{issue_fields(4,-S,created,author,subject,status)}}
+- Wed Feb 01 17:24:23 +0100 2012 - Alexandre Scoarnec - anomalie 1 - Résolu"
+		 
+{{issue_fields(4,-N,Doc._Liste,-N,Doc._texte,-N,Doc._entier,-N,Doc._Nombre_décimal,-N,Doc._Date,-N,Doc._Booléen,-N,Doc._Utilisateur,-N,Doc._Version,-N,Doc._texte_long )}}
+Test : Anomalie #18 : - Doc. Liste : Public - Doc. texte : Bonjour ! - Doc. entier : 999 - Doc. Nombre décimal : 999.99 - Doc. Date : 22/07/2012 - Doc. Booléen : Yes
+- Doc. Utilisateur : Alexandre Scoarnec - Doc. Version : ##### - Doc. texte long : ReBonjour!"
+
+{{issue_fields(4,-S,-N,Doc._Liste,-N,Doc._texte,-N,Doc._entier,-N,Doc._Nombre_décimal,-N,Doc._Date,-N,Doc._Booléen,-N,Doc._Utilisateur,-N,Doc._Version,-N,Doc._texte_long)}}
+- Doc. Liste : Public - Doc. texte : Bonjour ! - Doc. entier : 999 - Doc. Nombre décimal : 999.99 - Doc. Date : 23/07/2012 - Doc. Booléen : Yes
+- Doc. Utilisateur : Alexandre Scoarnec - Doc. Version : ##### - Doc. texte long : ReBonjour!"
+
+{{issue_fields(4,-P,Doc._Liste,Doc._texte,Doc._entier,Doc._Nombre_décimal,Doc._Date,Doc._Booléen,Doc._Utilisateur,Doc._Version,Doc._texte_long)}}
+Test 1 : Anomalie #20 : - Doc. Liste : Public - Doc. texte : Bonjour ! - Doc. entier : 999 - Doc. Nombre décimal : 999.99 - Doc. Date : 31/08/2012 - Doc. Booléen : Yes
+- Doc. Utilisateur : Alexandre Scoarnec - Doc. Version : ##### - Doc. texte long : ReBonjour!"
+
+{{issue_fields(4,-S,-P,Doc._Liste,Doc._texte,Doc._entier,Doc._Nombre_décimal,Doc._Date,Doc._Booléen,Doc._Utilisateur,Doc._Version,Doc._texte_long)}}
+- Doc. Liste : Public - Doc. texte : Bonjour ! - Doc. entier : 999 - Doc. Nombre décimal : 999.99 - Doc. Date : 15/07/2012 - Doc. Booléen : Yes
+- Doc. Utilisateur : Alexandre Scoarnec - Doc. Version : ##### - Doc. texte long : ReBonjour !"
+
+== License
+
+This plugin is licensed under the GNU GPL v2.  See COPYRIGHT.txt and GPL.txt for details.
+
+== Project help
+
+If you need help you can contact the maintainer at the Bug Tracker.
+

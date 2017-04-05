@@ -6,10 +6,11 @@ module WikiIssueFieldsMacro
   ##############################################################################
 
   Redmine::WikiFormatting::Macros.register do
-    desc "Display an issue and it's details.\n\n" +
+    error_message = "Display a list of issues and some of their properties in a wiki page. The text is click-able, making a link to the issue itself.\n\n" +
          "+Syntax:+\n" +
-         "<pre>{{issue_fields(issue,[options],[arguments])}}</pre>\n\n" +
-         "_issue_ : issue number\n" +
+         "<pre>Single issue : {{issue_fields(issue_id,[options],[arguments])}}\n\n" +
+         "List of issues : {{issue_fields(issue_id_1 issue_id_2,[options],[arguments])}}</pre>\n\n" +
+         "_issue_id_ : issue number\n" +
          "+Options:+\n" +
          "* +l : Add html link\n" +
          "* +p : display the project name number\n" +
@@ -18,18 +19,22 @@ module WikiIssueFieldsMacro
 	       "* +s : specify a separator to be used instead of coma\n\n" +
          "+Arguments:+\n" +
          "* Natives issue field : project, tracker, parent, status, priority, subject, author, assigned_to, updated_on, category, fixed_version, start_date, due_date, estimated_hours, done_ratio, created\n" +
-         "* Custom issue fields\n\n" +
+         "* Custom issue fields name\n\n" +
          "+Examples:+\n" +
-         "<pre>{{issue_fields(1,+p,+i,+c,subject)}} ->  test - #1, Subject : This is the subject of the issue number 1\n" +
-         "{{issue_fields(2,+p,+i,subject)}} ->  test - #2, This is the subject of the issue number 2\n" +
-         "{{issue_fields(3,+c,subject)}} ->  Subject : This is the subject of the issue number 3</pre>\n"
-         
+         "<pre>{{issue_fields(1,subject)}} ->  This is the subject of the issue number 1\n" +
+         "{{issue_fields(2,+c,subject)}} ->  Subject : This is the subject of the issue number 2\n" +
+         "{{issue_fields(3,+p,+i,subject)}} ->  test - #3, This is the subject of the issue number 3\n" +
+         "{{issue_fields(1 2 3,subject)}} -> This is the subject of the issue number 1\n" +
+         "                                   This is the subject of the issue number 2\n" +
+         "                                   This is the subject of the issue number 3</pre>"
+
+    desc error_message
                
     macro :issue_fields do |obj, args|
     
   ##############################################################################
     
-      return 'Error : arguments missing' unless args.length > 0
+      return textilizable(error_message) unless args.length > 0
 
       #issue_id = args[0].strip
       #issue = Issue.visible.find_by_id(issue_id)
@@ -37,23 +42,24 @@ module WikiIssueFieldsMacro
       issues = Array.new
       issues = args[0].split.collect { |e| Issue.visible.find_by_id(e)}
       
-      return 'Error : issue missing' if issues.empty?
+      return textilizable("%{background-color:yellow}Issues missing%") if issues.empty?
       
       ##########################################################################
       
       html_link = true
+      display_fields_caption = 0
       display_project_name = 0
       display_issue_id = 0
       separator = ", "
       output_html = ''.html_safe
 
       issues.each do |issue|
-        display_fields_caption = 0
+        return textilizable("%{background-color:yellow}Invalid issue ID%") if issue.nil?
         response = ''.html_safe
         description = ''.html_safe
         compteur_args = 1
         while (compteur_args < args.length)
-            
+            display_fields_caption = 0
             entre = args[compteur_args].strip
             
             if args[compteur_args].strip == "-l"
@@ -352,7 +358,7 @@ module WikiIssueFieldsMacro
         else
            output_html << issue_link + "<br/>".html_safe + description
         end
-        output_html << "<br/>".html_safe
+        output_html << "<br/>".html_safe + "\r\n"
       end # each issues 
       output_html
     end # macro

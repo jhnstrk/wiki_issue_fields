@@ -4,8 +4,8 @@ Redmine::Plugin.register :wiki_issue_fields do
   name 'Redmine Wiki Issue fields plugin'
   author 'SeaSidetech'
   description 'This plugin adds a wiki macro to make it easier to list the details of issues on a wiki page.'
-  url "http://www.seasidetech.net/en/plugin-redmine---wiki-issue-fields-gc8.html"
-  version '0.4.7'
-  requires_redmine :version_or_higher => '2.3.0'
+  url "http://www.redmine.org/plugins/wiki_issue_fields"
+  version '0.5.1'
+  requires_redmine :version_or_higher => '2.6.0'
   
 end

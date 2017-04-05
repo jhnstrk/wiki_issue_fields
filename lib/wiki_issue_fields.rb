@@ -18,7 +18,8 @@ module WikiIssueFieldsMacro
          "* +c : display the field caption of any field after this option\n" +
 	       "* +s : specify a separator to be used instead of coma\n\n" +
          "+Arguments:+\n" +
-         "* Natives issue field : project, tracker, parent, status, priority, subject, author, assigned_to, updated_on, category, fixed_version, start_date, due_date, estimated_hours, done_ratio, created\n" +
+         "* Natives issue field : project, tracker, parent, status, priority, subject, author, assigned_to, updated_on, \n" +
+         "                        category, fixed_version, start_date, due_date, estimated_hours, done_ratio, created\n" +
          "* Custom issue fields name\n\n" +
          "+Examples:+\n" +
          "<pre>{{issue_fields(1,subject)}} ->  This is the subject of the issue number 1\n" +
@@ -152,7 +153,7 @@ module WikiIssueFieldsMacro
             end
             
             if entre == "description"   ### 3 ###
-               description << textilizable(issue.description)
+               description << content_tag('div', textilizable(issue, :description), :class => "description")
             end
             
             if entre == "status"   ### 4 ###
@@ -165,9 +166,9 @@ module WikiIssueFieldsMacro
                sortie << h(issue.priority)
             end          
             
-            if entre == "assignee"   ### 6 ###
-               sortie_name << "Assegnee: "
-               sortie << h(issue.assignee)
+            if entre == "assigned_to"   ### 6 ###
+               sortie_name << "Assigned to: "
+               sortie << h(issue.assigned_to)
             end 
             
             if entre == "category"   ### 7 ###
@@ -354,11 +355,14 @@ module WikiIssueFieldsMacro
    
         if display_project_name == 1
            project_link = link_to(h(issue.project), :controller => 'projects', :action => 'show', :id => issue.project)
-           output_html << project_link + " - " + issue_link + "<br/>".html_safe + description
+           output_html << project_link + " - " + issue_link
         else
-           output_html << issue_link + "<br/>".html_safe + description
+           output_html << issue_link
         end
-        output_html << "<br/>".html_safe + "\r\n"
+        output_html << "<br/>".html_safe + description unless description.to_s == ""
+        unless issues.count == 1
+          output_html << "<br/>".html_safe + "\r\n"
+        end
       end # each issues 
       output_html
     end # macro
